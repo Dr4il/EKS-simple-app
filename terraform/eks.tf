@@ -36,7 +36,7 @@ resource "aws_eks_cluster" "k8s_cluster" {
   role_arn = aws_iam_role.eks_cluster_role.arn
 
   vpc_config {
-    subnet_ids = [aws_subnet.subnet_a.id, aws_subnet.subnet_b.id]
+    subnet_ids = module.vpc.public_subnets
   }
 
   depends_on = [
@@ -57,7 +57,7 @@ resource "aws_eks_node_group" "cluster_nodes" {
   cluster_name    = aws_eks_cluster.k8s_cluster.name
   node_group_name = "k8s_nodes"
   node_role_arn   = aws_iam_role.cluster_nodes_role.arn
-  subnet_ids      = [aws_subnet.subnet_a.id, aws_subnet.subnet_b.id]
+  subnet_ids      = module.vpc.public_subnets
   capacity_type = "SPOT"
   #instance_types = ["c5.xlarge"] //We need to go cheaper
   instance_types = ["t3.medium"]

@@ -3,14 +3,14 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "infra_bucket" {
-  bucket = "infrastate-sayollo"
+  bucket = "infrastate-bucket"
   acl    = "private"
   tags = var.tags
 }
 
 terraform {
   backend "s3" {
-    bucket = "infrastate-sayollo"
+    bucket = "infrastate-bucket"
     key    = "terraform/infra.tfstate"
     region = "eu-west-1"
   }
